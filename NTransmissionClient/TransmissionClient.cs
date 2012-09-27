@@ -11,7 +11,6 @@ namespace NTransmissionClient
     public class TransmissionClient : IDisposable
     {
         private string username, password;
-        private HttpClientHandler clientHandler;
         private HttpClient client;
 
         private JsonSerializer serializer;
@@ -49,15 +48,29 @@ namespace NTransmissionClient
 
         private void RecreateClient()
         {
-            this.clientHandler = new HttpClientHandler();
-            this.clientHandler.Credentials = new NetworkCredential(this.username, this.password);
-            this.client = new HttpClient(this.clientHandler, false);
+            var clientHandler = new HttpClientHandler();
+            clientHandler.Credentials = new NetworkCredential(this.username, this.password);
+            this.client = new HttpClient(clientHandler, true);
         }
 
         public void Dispose()
         {
             this.client.Dispose();
             this.client = null;
+        }
+
+        private async Task<T> DeserializeFromJson<T>(HttpContent content)
+        {
+            using (Stream responseStream = await content.ReadAsStreamAsync())
+            {
+                using (StreamReader reader = new StreamReader(responseStream))
+                {
+                    using (JsonTextReader jsonReader = new JsonTextReader(reader))
+                    {
+                        return this.serializer.Deserialize<T>(jsonReader);
+                    }
+                }
+            }
         }
 
         private async Task<T> ExecuteMethod<T>(TransmissionRequest requestData)
@@ -73,16 +86,7 @@ namespace NTransmissionClient
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    using (Stream responseStream = await response.Content.ReadAsStreamAsync())
-                    {
-                        using (StreamReader reader = new StreamReader(responseStream))
-                        {
-                            using (JsonTextReader jsonReader = new JsonTextReader(reader))
-                            {
-                                return this.serializer.Deserialize<T>(jsonReader);
-                            }
-                        }
-                    }
+                    return await this.DeserializeFromJson<T>(response.Content);
                 }
                 else
                 {
