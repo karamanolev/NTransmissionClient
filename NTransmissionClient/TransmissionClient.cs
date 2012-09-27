@@ -4,53 +4,76 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Net.Http;
 
 namespace NTransmissionClient
 {
-    public class TransmissionClient
+    public class TransmissionClient : IDisposable
     {
+        private string username, password;
+        private HttpClientHandler clientHandler;
+        private HttpClient client;
+
         private JsonSerializer serializer;
         private string sessionId;
 
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string Username
+        {
+            get { return this.username; }
+            set
+            {
+                this.username = value;
+                this.RecreateClient();
+            }
+        }
+        public string Password
+        {
+            get { return this.password; }
+            set
+            {
+                this.password = value;
+                this.RecreateClient();
+            }
+        }
         public string AccessUrl { get; set; }
 
         public TransmissionClient(string fullAccessUrl)
         {
+            this.RecreateClient();
+
             this.serializer = new JsonSerializer();
             this.serializer.NullValueHandling = NullValueHandling.Ignore;
 
             this.AccessUrl = fullAccessUrl;
         }
 
+        private void RecreateClient()
+        {
+            this.clientHandler = new HttpClientHandler();
+            this.clientHandler.Credentials = new NetworkCredential(this.username, this.password);
+            this.client = new HttpClient(this.clientHandler, false);
+        }
+
+        public void Dispose()
+        {
+            this.client.Dispose();
+            this.client = null;
+        }
+
         private async Task<T> ExecuteMethod<T>(TransmissionRequest requestData)
         {
-            HttpWebRequest request = HttpWebRequest.CreateHttp(AccessUrl);
+            JsonPushContent content = new JsonPushContent(this.serializer, requestData);
+
             if (this.sessionId != null)
             {
-                request.Headers["X-Transmission-Session-Id"] = this.sessionId;
+                content.Headers.Add("X-Transmission-Session-Id", this.sessionId);
             }
-            if (this.Username != null && this.Password != null)
-            {
-                request.Credentials = new NetworkCredential(this.Username, this.Password);
-            }
-            request.Method = "POST";
 
-            using (Stream requestStream = await request.GetRequestStreamAsync())
+            using (HttpResponseMessage response = await this.client.PostAsync(this.AccessUrl, content))
             {
-                using (StreamWriter writer = new StreamWriter(requestStream))
+                if (response.IsSuccessStatusCode)
                 {
-                    serializer.Serialize(writer, requestData);
-                }
-            }
-
-            try
-            {
-                using (var response = (HttpWebResponse)await request.GetResponseAsync())
-                {
-
-                    using (Stream responseStream = response.GetResponseStream())
+                    using (Stream responseStream = await response.Content.ReadAsStreamAsync())
                     {
                         using (StreamReader reader = new StreamReader(responseStream))
                         {
@@ -61,19 +84,16 @@ namespace NTransmissionClient
                         }
                     }
                 }
-            }
-            catch (WebException ex)
-            {
-                using (var response = (HttpWebResponse)ex.Response)
+                else
                 {
                     if (response.StatusCode == HttpStatusCode.Conflict)
                     {
                         // Set session and rerurn
-                        this.sessionId = response.Headers["X-Transmission-Session-Id"];
+                        this.sessionId = response.Headers.GetValues("X-Transmission-Session-Id").First();
                     }
                     else
                     {
-                        throw ex;
+                        response.EnsureSuccessStatusCode();
                     }
                 }
             }

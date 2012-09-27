@@ -1,7 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using NTransmissionClient;
-using System.IO;
 
 namespace Test
 {
