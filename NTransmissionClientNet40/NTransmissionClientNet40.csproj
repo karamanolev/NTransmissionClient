@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{07CD221C-A59C-453B-B11F-2057DE3310BC}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{B99948F9-5D6D-49D8-A3C5-AA9320B5749A}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test</RootNamespace>
-    <AssemblyName>Test</AssemblyName>
+    <RootNamespace>NTransmissionClientNet40</RootNamespace>
+    <AssemblyName>NTransmissionClientNet40</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -32,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\Libraries\Net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
@@ -42,17 +43,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="..\NTransmissionClient\JsonPushContent.cs">
+      <Link>JsonPushContent.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\SessionStatistics.cs">
+      <Link>SessionStatistics.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TorrentAddRequest.cs">
+      <Link>TorrentAddRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TorrentAddResponse.cs">
+      <Link>TorrentAddResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TorrentDeleteRequest.cs">
+      <Link>TorrentDeleteRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TorrentFields.cs">
+      <Link>TorrentFields.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TorrentGetRequest.cs">
+      <Link>TorrentGetRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TorrentGetResponse.cs">
+      <Link>TorrentGetResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TorrentInfo.cs">
+      <Link>TorrentInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TransmissionClient.cs">
+      <Link>TransmissionClient.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TransmissionException.cs">
+      <Link>TransmissionException.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TransmissionRequest.cs">
+      <Link>TransmissionRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TransmissionResponse.cs">
+      <Link>TransmissionResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\NTransmissionClient\TrSessionStats.cs">
+      <Link>TrSessionStats.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NTransmissionClientNet40\NTransmissionClientNet40.csproj">
-      <Project>{b99948f9-5d6d-49d8-a3c5-aa9320b5749a}</Project>
-      <Name>NTransmissionClientNet40</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

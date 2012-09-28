@@ -38,6 +38,7 @@ namespace NTransmissionClient
 
         public TransmissionClient(string fullAccessUrl)
         {
+            this.username = "transmission";
             this.RecreateClient();
 
             this.serializer = new JsonSerializer();
