@@ -36,6 +36,7 @@
     <Compile Include="JsonPushContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionStatistics.cs" />
+    <Compile Include="TorrentAddInfo.cs" />
     <Compile Include="TorrentAddRequest.cs" />
     <Compile Include="TorrentAddResponse.cs" />
     <Compile Include="TorrentDeleteRequest.cs" />
