@@ -49,6 +49,9 @@
     <Compile Include="..\NTransmissionClient\SessionStatistics.cs">
       <Link>SessionStatistics.cs</Link>
     </Compile>
+    <Compile Include="..\NTransmissionClient\TorrentAddInfo.cs">
+      <Link>TorrentAddInfo.cs</Link>
+    </Compile>
     <Compile Include="..\NTransmissionClient\TorrentAddRequest.cs">
       <Link>TorrentAddRequest.cs</Link>
     </Compile>
