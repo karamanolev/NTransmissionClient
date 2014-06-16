@@ -2,9 +2,9 @@
 using System;
 using System.Linq;
 
-namespace NTransmissionClient
+namespace NTransmissionClient.Model
 {
-    class TransmissionRequest
+    public class TransmissionRequest
     {
         [JsonProperty("method")]
         public string Method { get; set; }

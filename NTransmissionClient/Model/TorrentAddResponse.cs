@@ -2,7 +2,7 @@
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace NTransmissionClient
+namespace NTransmissionClient.Model
 {
     public class TorrentAddResponse
     {

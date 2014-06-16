@@ -33,22 +33,29 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums.cs" />
     <Compile Include="JsonPushContent.cs" />
+    <Compile Include="UnixDateTimeConverter.cs" />
+    <Compile Include="Model\FileStats.cs" />
+    <Compile Include="Model\Peers.cs" />
+    <Compile Include="Model\PeersFrom.cs" />
+    <Compile Include="Model\Trackers.cs" />
+    <Compile Include="Model\TrackerStats.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SessionStatistics.cs" />
-    <Compile Include="TorrentAddInfo.cs" />
-    <Compile Include="TorrentAddRequest.cs" />
-    <Compile Include="TorrentAddResponse.cs" />
-    <Compile Include="TorrentDeleteRequest.cs" />
-    <Compile Include="TorrentFields.cs" />
-    <Compile Include="TorrentGetRequest.cs" />
-    <Compile Include="TorrentGetResponse.cs" />
-    <Compile Include="TorrentInfo.cs" />
+    <Compile Include="Model\SessionStatistics.cs" />
+    <Compile Include="Model\TorrentAddInfo.cs" />
+    <Compile Include="Model\TorrentAddRequest.cs" />
+    <Compile Include="Model\TorrentAddResponse.cs" />
+    <Compile Include="Model\TorrentDeleteRequest.cs" />
+    <Compile Include="Model\TorrentFile.cs" />
+    <Compile Include="Model\TorrentGetRequest.cs" />
+    <Compile Include="Model\TorrentGetResponse.cs" />
+    <Compile Include="Model\TorrentInfo.cs" />
     <Compile Include="TransmissionClient.cs" />
     <Compile Include="TransmissionException.cs" />
-    <Compile Include="TransmissionRequest.cs" />
-    <Compile Include="TransmissionResponse.cs" />
-    <Compile Include="TrSessionStats.cs" />
+    <Compile Include="Model\TransmissionRequest.cs" />
+    <Compile Include="Model\TransmissionResponse.cs" />
+    <Compile Include="Model\TrSessionStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

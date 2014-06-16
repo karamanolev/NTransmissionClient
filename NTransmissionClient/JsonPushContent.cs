@@ -5,10 +5,11 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace NTransmissionClient
 {
-    class JsonPushContent : HttpContent
+    internal class JsonPushContent : HttpContent
     {
         private JsonSerializer serializer;
         private object content;
@@ -19,11 +20,11 @@ namespace NTransmissionClient
             this.content = content;
         }
 
-        protected override async Task SerializeToStreamAsync(System.IO.Stream stream, System.Net.TransportContext context)
+        protected override async Task SerializeToStreamAsync(Stream stream, TransportContext context)
         {
             await Task.Run(() =>
             {
-                using (StreamWriter writer = new StreamWriter(stream, new UTF8Encoding(false), 4096, true))
+                using (var writer = new StreamWriter(stream, new UTF8Encoding(false), 4096, true))
                 {
                     this.serializer.Serialize(writer, this.content);
                 }

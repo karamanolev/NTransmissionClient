@@ -7,7 +7,6 @@ namespace NTransmissionClient
     {
         public TransmissionException(string message)
             : base(message)
-        {
-        }
+        { }
     }
 }
